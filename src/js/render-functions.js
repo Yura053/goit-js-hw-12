@@ -57,7 +57,7 @@ export const showGallery = images => {
   <div class = "image-info-block">
     <div class = "image-info-block-part">
       <p class="bold">Likes</p>
-      <p></p>${likes}</p>
+      <p>${likes}</p>
   </div>
     <div class = "image-info-block-part">
     <p class="bold">Views</p>
@@ -83,4 +83,23 @@ export const showGallery = images => {
 
 export const clearGallery = () => {
   ulElem.innerHTML = '';
+};
+
+const loader = document.querySelector('.loader-placeholder');
+const loadMoreBtn = document.querySelector('.load-more');
+
+export const showLoader = () => {
+  loader.classList.add('loader');
+};
+
+export const hideLoader = () => {
+  loader.classList.remove('loader');
+};
+
+export const showLoadMoreButton = () => {
+  loadMoreBtn.classList.remove('is-hidden');
+};
+
+export const hideLoadMoreButton = () => {
+  loadMoreBtn.classList.add('is-hidden');
 };

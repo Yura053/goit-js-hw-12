@@ -2,18 +2,18 @@ import * as api from './js/pixabay-api';
 import * as render from './js/render-functions';
 
 const searchForm = document.querySelector('.search-form');
-const loader = document.querySelector('.loader-placeholder');
+// const loader = document.querySelector('.loader-placeholder');
 const loadMore = document.querySelector('.load-more');
 let searchInputValue;
-const per_page = 40;
+const per_page = 15;
 let page = 1;
 
 const loadPictures = async () => {
   try {
-    loader.classList.add('loader');
-    loadMore.classList.add('is-hidden');
+    render.showLoader();
+    render.hideLoadMoreButton();
     const response = await api.searchImage(searchInputValue, page, per_page);
-    console.log(response);
+    // console.log(response);
 
     if (!response.data.hits.length) {
       render.showError(
@@ -23,7 +23,7 @@ const loadPictures = async () => {
     }
     render.showGallery(response.data.hits);
     if (response.data.totalHits > page * per_page) {
-      loadMore.classList.remove('is-hidden');
+      render.showLoadMoreButton();
     } else {
       render.showMessage(
         "We're sorry, but you've reached the end of search results."
@@ -31,12 +31,15 @@ const loadPictures = async () => {
     }
   } catch (error) {
     console.error('Error fetching images:', error);
+
+    render.showError('Something went wrong. Please try again later.');
   } finally {
-    loader.classList.remove('loader');
+    render.hideLoader();
   }
 };
 
 searchForm.addEventListener('submit', async event => {
+  await loadPictures();
   event.preventDefault();
   searchInputValue = event.target.elements.input.value.trim();
 
